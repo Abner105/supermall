@@ -1,0 +1,14 @@
+@import url('./normalize.css');
+/* :root->获取根元素html */
+/* 这里是定义变量 ,使用的时候用：var(变量名)*/
+:root{
+  --color-text:#666;
+  --color-high-text:#ff5777;
+  --color-tint:#ff8198;
+  --font-size: 14px;
+  --line-height:1.5;
+}
+body{
+  padding: 0;
+  margin: 0;
+}
