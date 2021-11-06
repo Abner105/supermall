@@ -1,7 +1,7 @@
 <template>
   <div>
     <tabbar>
-      <tabitem path="/home" activecolor="red">
+      <tabitem path="/home" activecolor="#f7327c">
         <img slot="tabimg" src="~assets/img/tabbar/prime.png" alt="" />
         <img
           slot="tabimg-active"
@@ -10,7 +10,7 @@
         />
         <h2 slot="tabtext">首页</h2>
       </tabitem>
-      <tabitem path="/category" activecolor="red">
+      <tabitem path="/category" activecolor="#f7327c">
         <img slot="tabimg" src="~assets/img/tabbar/category.png" alt="" />
         <img
           slot="tabimg-active"
@@ -26,7 +26,7 @@
 
         <h2  slot="tabtext">快速下单</h2>
       </tabitem> -->
-      <tabitem path="/cart" activecolor="red">
+      <tabitem path="/cart" activecolor="#f7327c">
         <img slot="tabimg" src="~assets/img/tabbar/cart.png" alt="" />
         <img
           slot="tabimg-active"
@@ -36,7 +36,7 @@
 
         <h2 slot="tabtext">购物车</h2>
       </tabitem>
-      <tabitem path="/profile" activecolor="red">
+      <tabitem path="/profile" activecolor="#f7327c">
         <img slot="tabimg" src="~assets/img/tabbar/mine.png" alt="" />
         <img
           slot="tabimg-active"
