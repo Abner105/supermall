@@ -17,6 +17,7 @@ export default {
   .nav-bar{
     display: flex;
     height: 44px;
+    width: 100%;
     text-align: center;
     line-height: 44px;
     /* background-color: antiquewhite; */
