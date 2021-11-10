@@ -4,8 +4,12 @@
     <home-swiper :banner="banner" />
     <recommend-view :recommend="recommend" />
     <feature-view />
-    <tab-control class="tab-control" :title="['流行', '新款', '精选']" />
-    <goods-list :goods="goods.pop.list"/>
+    <tab-control
+      class="tab-control"
+      :title="['流行', '新款', '精选']"
+      @itemClick="itemClick"
+    />
+    <goods-list :goods="tabItem" />
   </div>
 </template>
 
@@ -15,7 +19,7 @@ import RecommendView from "./childcomponents/RecommendView.vue";
 import FeatureView from "./childcomponents/FeatureView.vue";
 import NavBar from "components/common/navbar/NavBar.vue";
 import TabControl from "components/content/tabcontrol/TabControl.vue";
-import GoodsList from 'components/content/goods/GoodsList.vue';
+import GoodsList from "components/content/goods/GoodsList.vue";
 import { getHomeMultidata, getHomeGoods } from "network/home.js";
 
 export default {
@@ -29,7 +33,13 @@ export default {
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] },
       },
+      tabType:'pop'
     };
+  },
+  computed:{
+    tabItem(){
+      return this.goods[this.tabType].list
+    }
   },
   components: {
     NavBar,
@@ -48,6 +58,7 @@ export default {
     this.getHomeGoods("sell");
   },
   methods: {
+    // 网络请求相关
     getHomeMultidata() {
       getHomeMultidata().then((res) => {
         this.banner = res.data.banner.list;
@@ -60,6 +71,10 @@ export default {
         this.goods[type].page += 1;
       });
     },
+    // 时间监听
+    itemClick(index){
+      this.tabType=['pop','new','sell'][index]
+    }
   },
 };
 </script>
