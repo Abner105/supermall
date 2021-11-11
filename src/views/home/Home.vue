@@ -1,15 +1,17 @@
 <template>
   <div id="home">
     <nav-bar class="nav-bar"><div slot="center">购物车</div></nav-bar>
-    <home-swiper :banner="banner" />
-    <recommend-view :recommend="recommend" />
-    <feature-view />
-    <tab-control
-      class="tab-control"
-      :title="['流行', '新款', '精选']"
-      @itemClick="itemClick"
-    />
-    <goods-list :goods="tabItem" />
+    <scroll class="content">
+      <home-swiper :banner="banner" />
+      <recommend-view :recommend="recommend" />
+      <feature-view />
+      <tab-control
+        class="tab-control"
+        :title="['流行', '新款', '精选']"
+        @itemClick="itemClick"
+      />
+      <goods-list :goods="tabItem" />
+    </scroll>
   </div>
 </template>
 
@@ -18,6 +20,7 @@ import HomeSwiper from "./childcomponents/HomeSwiper.vue";
 import RecommendView from "./childcomponents/RecommendView.vue";
 import FeatureView from "./childcomponents/FeatureView.vue";
 import NavBar from "components/common/navbar/NavBar.vue";
+import Scroll from "components/common/scroll/Scroll.vue";
 import TabControl from "components/content/tabcontrol/TabControl.vue";
 import GoodsList from "components/content/goods/GoodsList.vue";
 import { getHomeMultidata, getHomeGoods } from "network/home.js";
@@ -33,13 +36,13 @@ export default {
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] },
       },
-      tabType:'pop'
+      tabType: "pop",
     };
   },
-  computed:{
-    tabItem(){
-      return this.goods[this.tabType].list
-    }
+  computed: {
+    tabItem() {
+      return this.goods[this.tabType].list;
+    },
   },
   components: {
     NavBar,
@@ -48,6 +51,7 @@ export default {
     FeatureView,
     TabControl,
     GoodsList,
+    Scroll,
   },
   created() {
     // 获取轮播图等数据
@@ -72,16 +76,18 @@ export default {
       });
     },
     // 时间监听
-    itemClick(index){
-      this.tabType=['pop','new','sell'][index]
-    }
+    itemClick(index) {
+      this.tabType = ["pop", "new", "sell"][index];
+    },
   },
 };
 </script>
 
-<style>
+<style scoped>
 #home {
-  padding-top: 44px;
+  /* padding-top: 44px; */
+  height: 100vh;
+  position: relative;
 }
 .nav-bar {
   background-color: var(--color-tint);
@@ -94,5 +100,15 @@ export default {
   position: sticky;
   top: 44px;
   background-color: #fff;
+}
+.content{
+  position: absolute;
+  top: 44px;
+  left: 0;
+  right: 0;
+  bottom: 48px;
+  /* height: 400px; */
+  /* height: calc(100vh-93px); */
+  overflow: hidden;
 }
 </style>
