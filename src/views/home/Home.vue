@@ -1,7 +1,15 @@
 <template>
   <div id="home">
     <nav-bar class="nav-bar"><div slot="center">购物车</div></nav-bar>
-    <scroll class="content">
+
+    <scroll
+      class="content"
+      ref="scroll"
+      :probeType="3"
+      @scroll="contentScroll"
+      :pullUpLoad="true"
+      @pullingUp="loadMore"
+    >
       <home-swiper :banner="banner" />
       <recommend-view :recommend="recommend" />
       <feature-view />
@@ -12,6 +20,8 @@
       />
       <goods-list :goods="tabItem" />
     </scroll>
+
+    <back-top @click.native="backClick" v-show="isShowTop" />
   </div>
 </template>
 
@@ -23,6 +33,8 @@ import NavBar from "components/common/navbar/NavBar.vue";
 import Scroll from "components/common/scroll/Scroll.vue";
 import TabControl from "components/content/tabcontrol/TabControl.vue";
 import GoodsList from "components/content/goods/GoodsList.vue";
+import BackTop from "components/content/backTop/BackTop.vue";
+
 import { getHomeMultidata, getHomeGoods } from "network/home.js";
 
 export default {
@@ -37,6 +49,7 @@ export default {
         sell: { page: 0, list: [] },
       },
       tabType: "pop",
+      isShowTop: false,
     };
   },
   computed: {
@@ -52,6 +65,7 @@ export default {
     TabControl,
     GoodsList,
     Scroll,
+    BackTop,
   },
   created() {
     // 获取轮播图等数据
@@ -73,11 +87,26 @@ export default {
       getHomeGoods(type, this.goods[type].page + 1).then((res) => {
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
+        // 结束上拉加载更多，以便下次能使用上拉加载更多
+        this.$refs.scroll.finishPullUp();
       });
     },
-    // 时间监听
+    // 事件监听,切换tab
     itemClick(index) {
       this.tabType = ["pop", "new", "sell"][index];
+    },
+    // 回到顶部
+    backClick() {
+      this.$refs.scroll.scrollTo(0, 0);
+    },
+    // 监听滚动，并隐藏置顶图标
+    contentScroll(position) {
+      this.isShowTop = position.y < -1000;
+    },
+    // 上拉加载更多
+    loadMore() {
+      console.log("hhh");
+      this.getHomeGoods(this.tabType);
     },
   },
 };
@@ -101,7 +130,7 @@ export default {
   top: 44px;
   background-color: #fff;
 }
-.content{
+.content {
   position: absolute;
   top: 44px;
   left: 0;
