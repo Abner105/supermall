@@ -27,7 +27,7 @@ export default {
   },
   mounted() {
     this.scroll = new BScroll(this.$refs.wrapper, {
-      // 划不动时
+      // 这个属性会在 better-scroll 内部帮我们监听 content 的高度变化，自动的帮我们调用内部的 refresh
       observeDOM: true,
       click:true,
       // 0和1都是不监听滚动位置，2是监听手指滚动的位置，3是监听所有滚动包括惯性的滚动

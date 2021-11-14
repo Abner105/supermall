@@ -1,7 +1,13 @@
 <template>
   <div id="home">
     <nav-bar class="nav-bar"><div slot="center">购物车</div></nav-bar>
-
+    <tab-control
+      class="tab-control"
+      :title="['流行', '新款', '精选']"
+      @itemClick="itemClick"
+      ref="tab1"
+      v-show="isShowTab"
+    />
     <scroll
       class="content"
       ref="scroll"
@@ -10,13 +16,13 @@
       :pullUpLoad="true"
       @pullingUp="loadMore"
     >
-      <home-swiper :banner="banner" />
+      <home-swiper :banner="banner" @bannerLoad="bannerLoad" />
       <recommend-view :recommend="recommend" />
       <feature-view />
       <tab-control
-        class="tab-control"
         :title="['流行', '新款', '精选']"
         @itemClick="itemClick"
+        ref="tab2"
       />
       <goods-list :goods="tabItem" />
     </scroll>
@@ -37,6 +43,8 @@ import BackTop from "components/content/backTop/BackTop.vue";
 
 import { getHomeMultidata, getHomeGoods } from "network/home.js";
 
+import { debounce } from "common/utils.js";
+
 export default {
   name: "Home",
   data() {
@@ -50,6 +58,8 @@ export default {
       },
       tabType: "pop",
       isShowTop: false,
+      isShowTab: false,
+      tabOffsetTop: 0,
     };
   },
   computed: {
@@ -77,10 +87,10 @@ export default {
   },
   mounted() {
     // 给refresh设置防抖
-    const refresh = this.debounce(this.$refs.scroll.refresh,10)
+    const refresh = debounce(this.$refs.scroll.refresh, 50);
     // 监听事件总线中的事件
     this.$bus.$on("imgLoad", () => {
-      refresh()
+      refresh();
     });
   },
   methods: {
@@ -102,29 +112,28 @@ export default {
     // 事件监听,切换tab
     itemClick(index) {
       this.tabType = ["pop", "new", "sell"][index];
+      this.$refs.tab1.isActive = index;
+      this.$refs.tab2.isActive = index;
     },
     // 回到顶部
     backClick() {
       this.$refs.scroll.scrollTo(0, 0);
     },
-    // 监听滚动，并隐藏置顶图标
+    // 监听滚动
     contentScroll(position) {
+      // 1.并隐藏置顶图标
       this.isShowTop = position.y < -1000;
+      // 2.控制tabcontrol吸顶
+      this.isShowTab = position.y < -this.tabOffsetTop;
     },
     // 上拉加载更多
     loadMore() {
-      console.log("hhh");
+      // console.log("hhh");
       this.getHomeGoods(this.tabType);
     },
-    // 封装防抖函数
-    debounce(fn, delay) {
-      let timer = null;
-      return function (...args) {
-        if (timer) clearTimeout(timer);
-        timer = setTimeout(() => {
-          fn.apply(this,args);
-        }, delay);
-      };
+    // 监听轮播图加载完成
+    bannerLoad() {
+      this.tabOffsetTop = this.$refs.tab2.$el.offsetTop;
     },
   },
 };
@@ -139,14 +148,14 @@ export default {
 .nav-bar {
   background-color: var(--color-tint);
   color: white;
-  position: fixed;
+  /* position: fixed;
   top: 0;
-  z-index: 10;
+  z-index: 10; */
 }
 .tab-control {
-  position: sticky;
-  top: 44px;
+  position: relative;
   background-color: #fff;
+  z-index: 9;
 }
 .content {
   position: absolute;
