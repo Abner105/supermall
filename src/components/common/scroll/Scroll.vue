@@ -52,6 +52,11 @@ export default {
     // 重新封装结束上拉方法
     finishPullUp(){
       this.scroll.finishPullUp()
+    },
+    // 重新封装刷新方法
+    refresh(){
+      this.scroll.refresh()
+      console.log('aaa')
     }
   }
 };

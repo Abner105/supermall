@@ -1,6 +1,6 @@
 <template>
   <div class="good-item">
-    <img :src="gitem.show.img" alt="">
+    <img :src="gitem.show.img" alt="" @load="imgLoad">
     <div class="good-info">
       <p>{{gitem.title}}</p>
       <span class="price">￥{{gitem.price}} </span>
@@ -18,6 +18,13 @@ export default {
       default(){
         return null
       }
+    }
+  },
+  methods:{
+    // 监听图片是否加载完成
+    imgLoad(){
+      // 向事件总线传递事件
+      this.$bus.$emit('imgLoad')
     }
   }
 }

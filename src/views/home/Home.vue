@@ -75,6 +75,14 @@ export default {
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
   },
+  mounted() {
+    // 给refresh设置防抖
+    const refresh = this.debounce(this.$refs.scroll.refresh,10)
+    // 监听事件总线中的事件
+    this.$bus.$on("imgLoad", () => {
+      refresh()
+    });
+  },
   methods: {
     // 网络请求相关
     getHomeMultidata() {
@@ -107,6 +115,16 @@ export default {
     loadMore() {
       console.log("hhh");
       this.getHomeGoods(this.tabType);
+    },
+    // 封装防抖函数
+    debounce(fn, delay) {
+      let timer = null;
+      return function (...args) {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+          fn.apply(this,args);
+        }, delay);
+      };
     },
   },
 };
