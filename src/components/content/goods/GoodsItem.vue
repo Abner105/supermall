@@ -1,5 +1,5 @@
 <template>
-  <div class="good-item">
+  <div class="good-item" @click="itemClick">
     <img :src="gitem.show.img" alt="" @load="imgLoad">
     <div class="good-info">
       <p>{{gitem.title}}</p>
@@ -25,6 +25,11 @@ export default {
     imgLoad(){
       // 向事件总线传递事件
       this.$bus.$emit('imgLoad')
+    },
+    // 监听商品点击，跳转详情页
+    itemClick(){
+      console.log(this.gitem.iid)
+      this.$router.push('/detail/'+this.gitem.iid)
     }
   }
 }

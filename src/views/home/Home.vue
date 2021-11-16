@@ -60,6 +60,7 @@ export default {
       isShowTop: false,
       isShowTab: false,
       tabOffsetTop: 0,
+      saveY: 0,
     };
   },
   computed: {
@@ -92,6 +93,16 @@ export default {
     this.$bus.$on("imgLoad", () => {
       refresh();
     });
+  },
+  destroyed() {
+    console.log("destroy");
+  },
+  activated() {
+    this.$refs.scroll.refresh();
+    this.$refs.scroll.scrollTo(0, this.saveY, 0);
+  },
+  deactivated() {
+    this.saveY = this.$refs.scroll.scroll.y;
   },
   methods: {
     // 网络请求相关
