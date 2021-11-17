@@ -19,4 +19,7 @@ export default {
   width: 40px;
   /* background-color: #fff; */
 }
+.back-top img{
+  width: 100%;
+}
 </style>

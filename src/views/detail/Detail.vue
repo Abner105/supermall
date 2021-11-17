@@ -1,12 +1,15 @@
 <template>
   <div id="detail">
+    <detail-bar/>
     xiang青叶
     {{iid}}
   </div>
 </template>
 
 <script>
+import DetailBar from './childcomponents/DetailBar.vue'
 export default {
+  components: { DetailBar },
   name:'Detail',
   data(){
     return {
@@ -22,6 +25,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>

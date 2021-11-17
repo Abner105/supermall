@@ -23,7 +23,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .recommend-view{
     display: flex;
     flex-direction: row;

@@ -35,7 +35,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .good-item{
   width: 47%;
   padding-top: 5px;
