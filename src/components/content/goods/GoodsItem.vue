@@ -1,6 +1,6 @@
 <template>
   <div class="good-item" @click="itemClick">
-    <img :src="gitem.show.img" alt="" @load="imgLoad">
+    <img :src="showImg" alt="" @load="imgLoad">
     <div class="good-info">
       <p>{{gitem.title}}</p>
       <span class="price">￥{{gitem.price}} </span>
@@ -18,6 +18,11 @@ export default {
       default(){
         return null
       }
+    }
+  },
+  computed:{
+    showImg(){
+      return this.gitem.image || this.gitem.show.img
     }
   },
   methods:{
@@ -53,7 +58,6 @@ img{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
- 
 }
 
 .price{

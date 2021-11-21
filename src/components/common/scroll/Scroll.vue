@@ -35,11 +35,11 @@ export default {
       pullUpLoad:this.pullUpLoad,
     });
     // 向父组件传递当前滚动的位置
-    this.scroll.on('scroll',(position)=>{
+    this.probeType!=1 && this.scroll.on('scroll',(position)=>{
       this.$emit('scroll',position)
     })
     // 监听上拉加载更多
-    this.scroll.on('pullingUp',()=>{
+    this.pullUpLoad && this.scroll.on('pullingUp',()=>{
       console.log('ppp')
       this.$emit('pullingUp')
     })

@@ -16,11 +16,16 @@
       <div class="score">
         <div v-for="(item, index) in shops.score" :key="index">
           <span>{{ item.name }}</span>
-          <span :class="{red:item.isBetter,green:!item.isBetter}">{{ item.score }}</span>
+          <span :class="{ red: item.isBetter, green: !item.isBetter }">{{
+            item.score
+          }}</span>
           <span v-if="item.isBetter" class="high">高</span>
           <span v-else class="low">低</span>
         </div>
       </div>
+    </div>
+    <div class="link">
+      <a :href="shops.shopUrl">进店逛逛</a>
     </div>
   </div>
 </template>
@@ -80,10 +85,10 @@ export default {
   padding-bottom: 5px;
 }
 .sell {
-  padding:0 10px;
+  padding: 0 10px;
 }
 .total {
-  padding:0 20px;
+  padding: 0 20px;
   border-right: solid #eee 2px;
 }
 .score {
@@ -91,26 +96,37 @@ export default {
   color: #333;
 }
 .score div {
-  padding: 8px  0 0 20px;
+  padding: 8px 0 0 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-.red{
+.red {
   color: red;
 }
-.green{
+.green {
   color: rgb(97, 184, 75);
 }
-.high,.low{
+.high,
+.low {
   color: #fff;
   border-radius: 3px;
   padding: 0 1px;
 }
-.high{
+.high {
   background-color: red;
 }
-.low{
-  background-color:  rgb(97, 184, 75);
+.low {
+  background-color: rgb(97, 184, 75);
+}
+.link{
+  background-color: rgb(240, 245, 243);
+  width: 150px;
+  height: 30px;
+  border-radius: 8px;
+  line-height: 30px;
+  text-align: center;
+  margin: 10px auto;
+  color: #333;
 }
 </style>

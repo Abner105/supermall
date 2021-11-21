@@ -7,6 +7,11 @@ export function getDetail(iid){
     }
   })
 }
+export function getRecommend(){
+  return request({
+    url:'/recommend'
+  })
+}
 export class Goods{
   constructor(itemInfo,columns,services){
     this.title = itemInfo.title
@@ -25,5 +30,13 @@ export class Shop{
     this.cSells = (shopInfo.cSells/10000).toFixed(1)
     this.cGoods = shopInfo.cGoods
     this.score = shopInfo.score
+    this.shopUrl = shopInfo.shopUrl
+  }
+}
+export class GoodsParam{
+  constructor(info,rule){
+      this.image = info.images ? info.images[0] : '';
+      this.infos = info.set;
+      this.sizes = rule.tables;
   }
 }
