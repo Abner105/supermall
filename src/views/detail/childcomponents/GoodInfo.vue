@@ -8,7 +8,7 @@
     <div v-for="(item, index) in goodsInfo.detailImage" :key="index">
       <div class="key">{{ item.key }}</div>
       <div v-for="(image,i) in item.list" :key="i">
-        <img :src="image" alt="" />
+        <img :src="image" alt="" @load="imgLoad"/>
       </div>
     </div>
   </div>
@@ -25,6 +25,11 @@ export default {
       },
     },
   },
+  methods:{
+    imgLoad(){
+      this.$emit('goodImgLoad')
+    }
+  }
 };
 </script>
 

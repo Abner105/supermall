@@ -27,6 +27,7 @@ export default {
   methods:{
     itemClick(index){
       this.isActive=index
+      this.$emit('barClick',index)
     },
     backClick(){
       this.$router.back()
