@@ -44,9 +44,12 @@ import BackTop from "components/content/backTop/BackTop.vue";
 import { getHomeMultidata, getHomeGoods } from "network/home.js";
 
 import { debounce } from "common/utils.js";
+import {backTop} from 'common/mixin.js'
+
 
 export default {
   name: "Home",
+  mixins:[backTop],
   data() {
     return {
       banner: [],
@@ -57,7 +60,7 @@ export default {
         sell: { page: 0, list: [] },
       },
       tabType: "pop",
-      isShowTop: false,
+      // isShowTop: false,
       isShowTab: false,
       tabOffsetTop: 0,
       saveY: 0,
@@ -76,7 +79,7 @@ export default {
     TabControl,
     GoodsList,
     Scroll,
-    BackTop,
+    // BackTop,
   },
   created() {
     // 获取轮播图等数据
@@ -126,16 +129,17 @@ export default {
       this.$refs.tab1.isActive = index;
       this.$refs.tab2.isActive = index;
     },
-    // 回到顶部
-    backClick() {
-      this.$refs.scroll.scrollTo(0, 0);
-    },
+    // 回到顶部,使用混入解决
+    // backClick() {
+    //   this.$refs.scroll.scrollTo(0, 0);
+    // },
     // 监听滚动
     contentScroll(position) {
       // 1.并隐藏置顶图标
       this.isShowTop = position.y < -1000;
       // 2.控制tabcontrol吸顶
-      this.isShowTab = position.y < -this.tabOffsetTop;
+      // this.isShowTab = position.y < -this.tabOffsetTop;
+      this.listenBack(position)
     },
     // 上拉加载更多
     loadMore() {

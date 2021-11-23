@@ -1,7 +1,7 @@
 <template>
   <div id="detail">
-    <detail-bar class="detail-bar" @barClick="barClick"/>
-    <scroll class="detail-content" ref="scroll">
+    <detail-bar class="detail-bar" @barClick="barClick" ref="nav"/>
+    <scroll class="detail-content" ref="scroll" :probeType="3" @scroll="contentScroll">
       <detail-swiper :topImages="topImages" />
       <detail-base-info :goods="goods" />
       <shop-info :shops="shops" />
@@ -10,12 +10,15 @@
       <detail-comment-info :commentInfo="commentInfo" ref="comment"/>
       <goods-list :goods="recommends" ref="recommend"/>
     </scroll>
+    <detail-bottom-bar/>
+    <back-top @click.native="backClick" v-show="isShowTop" />
   </div>
 </template>
 
 <script>
 import { getDetail, Goods, Shop, GoodsParam,getRecommend } from "network/detail.js";
 import {debounce} from 'common/utils.js'
+import {backTop} from 'common/mixin.js'
 import DetailBar from "./childcomponents/DetailBar.vue";
 import DetailSwiper from "./childcomponents/DetailSwiper.vue";
 import DetailBaseInfo from "./childcomponents/DetailBaseInfo.vue";
@@ -25,6 +28,7 @@ import GoodInfo from "./childcomponents/GoodInfo.vue";
 import DetailParamInfo from "./childcomponents/DetailParamInfo.vue";
 import DetailCommentInfo from './childcomponents/DetailCommentInfo.vue';
 import GoodsList from '../../components/content/goods/GoodsList.vue';
+import DetailBottomBar from './childcomponents/DetailBottomBar.vue';
 export default {
   components: {
     DetailBar,
@@ -36,6 +40,7 @@ export default {
     DetailParamInfo,
     DetailCommentInfo,
     GoodsList,
+    DetailBottomBar,
   },
   name: "Detail",
   data() {
@@ -49,7 +54,8 @@ export default {
       commentInfo:{},
       recommends:[],
       toTopYs:[],  // 存储参数，评论和推荐的高度，以便可以正确条到对应的位置
-      getOffsetY:null
+      getOffsetY:null,
+      newIndexs:0
     };
   },
   created() {
@@ -87,7 +93,7 @@ export default {
       this.toTopYs.push(0)
       this.toTopYs.push(this.$refs.param.$el.offsetTop-44)
       this.toTopYs.push(this.$refs.comment.$el.offsetTop-44)
-      this.toTopYs.push(this.$refs.recommend.$el.offsetTop-44)
+      this.toTopYs.push(this.$refs.recommend.$el.offsetTop-44,Infinity)
       console.log(this.toTopYs)
     },100)
   },
@@ -99,8 +105,19 @@ export default {
     // 监听子组件的图片加载 ，加载完成后获取评论等的offsetTop
     goodImgLoad(){
       this.getOffsetY()
+    },
+    // 监听滚动，实现滚动自动切换tabbar
+    contentScroll(p){
+      for (let i=0;i<this.toTopYs.length-1;i++){
+        if (this.newIndexs!==i && (-p.y>this.toTopYs[i] && -p.y<this.toTopYs[i+1])){
+          this.newIndexs=i
+          this.$refs.nav.isActive = this.newIndexs
+        }
+      }
+      this.listenBack(p)
     }
-  }
+  },
+  mixins:[backTop]
 };
 </script>
 
@@ -118,6 +135,6 @@ export default {
   z-index: 9;
 }
 .detail-content {
-  height: calc(100% - 44px);
+  height: calc(100% - 44px - 58px);
 }
 </style>
