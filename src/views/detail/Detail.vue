@@ -10,7 +10,7 @@
       <detail-comment-info :commentInfo="commentInfo" ref="comment"/>
       <goods-list :goods="recommends" ref="recommend"/>
     </scroll>
-    <detail-bottom-bar/>
+    <detail-bottom-bar @addCart="addCart"/>
     <back-top @click.native="backClick" v-show="isShowTop" />
   </div>
 </template>
@@ -62,6 +62,7 @@ export default {
     this.iid = this.$route.params.iid;
     getDetail(this.iid).then((res) => {
       const data = res.result;
+      console.log(data)
       // 轮播图数据
       this.topImages = data.itemInfo.topImages;
       // 商品信息数据（价格等）
@@ -94,7 +95,7 @@ export default {
       this.toTopYs.push(this.$refs.param.$el.offsetTop-44)
       this.toTopYs.push(this.$refs.comment.$el.offsetTop-44)
       this.toTopYs.push(this.$refs.recommend.$el.offsetTop-44,Infinity)
-      console.log(this.toTopYs)
+      // console.log(this.toTopYs)
     },100)
   },
   methods:{
@@ -115,6 +116,18 @@ export default {
         }
       }
       this.listenBack(p)
+    },
+    // 监听点击添加购物车
+    addCart(){
+      // 用一个对象来存储该商品在购物车的数据
+      const cartGoods = {}
+      cartGoods.iid = this.iid
+      cartGoods.title = this.goods.title
+      cartGoods.lowPrice = this.goods.lowPrice
+      cartGoods.desc = this.goodsInfo.desc
+      // 添加数据到购物车
+      this.$store.dispatch('addGoods',cartGoods)
+      console.log(this.$store.state.cartlist)
     }
   },
   mixins:[backTop]

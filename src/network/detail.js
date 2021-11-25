@@ -21,6 +21,7 @@ export class Goods{
     this.discountBgColor = itemInfo.discountBgColor
     this.columns = [columns[0],columns[1],services[0].name]
     this.services = services.slice(1)
+    this.lowPrice = itemInfo.lowPrice
   }
 }
 export class Shop{
