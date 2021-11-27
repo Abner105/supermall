@@ -16,7 +16,7 @@
       </div>
       <div class="bar-item bar-right">
               <div class="cart" @click="addToCart">加入购物车</div>
-              <div class="buy">购买</div>
+              <div class="buy" @click="toCart">购买</div>
         </div>
         
   </div>
@@ -28,8 +28,13 @@ export default {
     methods: {
         addToCart(){
             this.$emit('addCart')
+        },
+        toCart(){
+            this.$router.push('/cart')
+            this.$emit('addCart')
         }
-    }
+    },
+
 }
 </script>
 

@@ -6,6 +6,7 @@ const mutations = {
   // 加商品到购物车
   addToCart(state,goods){
     goods.qty = 1
+    goods.check = true
     state.cartlist.push(goods)
   }
 }

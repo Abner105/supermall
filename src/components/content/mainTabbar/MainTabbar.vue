@@ -33,7 +33,6 @@
           src="~assets/img/tabbar/cart-active.png"
           alt=""
         />
-
         <h2 slot="tabtext">购物车</h2>
       </tabitem>
       <tabitem path="/profile" activecolor="#f7327c">
@@ -46,6 +45,9 @@
 
         <h2 slot="tabtext">我的</h2>
       </tabitem>
+
+      <!-- 购物车气泡 -->
+      <h2 class="bool" v-if="calcLength">{{ calcLength }}</h2>
     </tabbar>
   </div>
 </template>
@@ -59,8 +61,30 @@ export default {
     tabbar,
     tabitem,
   },
+  computed: {
+    calcLength() {
+      return this.$store.getters.cartlist.filter((item) => item.check).length;
+    },
+  },
 };
 </script>
 
 <style scoped>
+.bool {
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  display: block;
+  position: absolute;
+  z-index: 999;
+  bottom: 17px;
+  right: 118px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background-color: var(--color-tint);
+  border-radius: 50%;
+  opacity: 0.9;
+}
 </style>

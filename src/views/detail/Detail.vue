@@ -122,12 +122,15 @@ export default {
       // 用一个对象来存储该商品在购物车的数据
       const cartGoods = {}
       cartGoods.iid = this.iid
+      cartGoods.img = this.topImages[0]
       cartGoods.title = this.goods.title
       cartGoods.lowPrice = this.goods.lowPrice
       cartGoods.desc = this.goodsInfo.desc
       // 添加数据到购物车
-      this.$store.dispatch('addGoods',cartGoods)
-      console.log(this.$store.state.cartlist)
+      this.$store.dispatch('addGoods',cartGoods).then(res=>{
+        console.log(res)
+      })
+      // console.log(this.$store.state.cartlist)
     }
   },
   mixins:[backTop]
