@@ -26,7 +26,7 @@
       />
       <goods-list :goods="tabItem" />
     </scroll>
-
+    <!-- <toast/> -->
     <back-top @click.native="backClick" v-show="isShowTop" />
   </div>
 </template>
@@ -39,12 +39,12 @@ import NavBar from "components/common/navbar/NavBar.vue";
 import Scroll from "components/common/scroll/Scroll.vue";
 import TabControl from "components/content/tabcontrol/TabControl.vue";
 import GoodsList from "components/content/goods/GoodsList.vue";
-import BackTop from "components/content/backTop/BackTop.vue";
 
 import { getHomeMultidata, getHomeGoods } from "network/home.js";
 
 import { debounce } from "common/utils.js";
 import {backTop} from 'common/mixin.js'
+// import Toast from '../../components/common/toast/Toast.vue';
 
 
 export default {
@@ -79,6 +79,7 @@ export default {
     TabControl,
     GoodsList,
     Scroll,
+    // Toast,
     // BackTop,
   },
   created() {

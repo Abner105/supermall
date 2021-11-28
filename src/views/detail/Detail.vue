@@ -128,7 +128,9 @@ export default {
       cartGoods.desc = this.goodsInfo.desc
       // 添加数据到购物车
       this.$store.dispatch('addGoods',cartGoods).then(res=>{
-        console.log(res)
+        // console.log(res)
+        // console.log(this.$toast.methods.show)
+        this.$toast.show(res,2000)
       })
       // console.log(this.$store.state.cartlist)
     }

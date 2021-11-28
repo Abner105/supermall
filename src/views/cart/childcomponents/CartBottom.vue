@@ -7,7 +7,7 @@
 
     <div class="price">合计:{{ allPrice }}</div>
 
-    <div class="calculate">计算 ( {{ calcLength }} )</div>
+    <div class="calculate" @click="clickCalc">计算 ( {{ calcLength }} )</div>
   </div>
 </template>
 
@@ -21,7 +21,7 @@ export default {
         "￥" +
         this.$store.getters.cartlist
           .filter((item) => item.check)
-          .reduce((pre, item) => pre + item.lowPrice * item.qty, 0)
+          .reduce((pre, item) => pre + item.lowPrice * item.qty, 0).toFixed(2)
       );
     },
     calcLength() {
@@ -43,6 +43,9 @@ export default {
       //   item.check = condition;
       // }
     },
+    clickCalc(){
+      this.$toast.show('请添加商品到购物车',2000)
+    }
   },
 };
 </script>
